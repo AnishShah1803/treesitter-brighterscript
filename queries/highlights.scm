@@ -1,14 +1,4 @@
-; Identifiers
-(identifier) @variable
-
-; Function declaration
-(function_statement
-  name: (identifier) @function)
-
-; Sub declaration
-(sub_statement
-  name: (identifier) @function)
-
+; Keywords
 [
   (sub_start)
   (function_start)
@@ -16,119 +6,30 @@
   (end_function)
 ] @keyword.function
 
-; Class keywords
 [
   (class_start)
   (end_class)
   (extends)
   (implements)
-] @keyword.class
+] @keyword
 
-(class_statement
-  name: (identifier) @class.name)
-
-(class_heritage
-  superclass: (identifier) @class.superclass)
-
-(class_implements
-  interface: (identifier) @class.interface)
-
-(access_modifier
-  [
-    (public)
-    (private)
-    (protected)
-  ] @keyword.modifier)
-
-(override) @keyword.modifier
-
-; Annotations
-(annotation
-  name: (identifier) @attribute)
-
-; New expression
-(new) @keyword
-
-; Interface keywords
 [
   (interface_start)
   (end_interface)
-] @keyword.interface
+] @keyword
 
-(interface_statement
-  name: (identifier) @interface.name)
-
-; Namespace keywords
 [
   (namespace_start)
   (end_namespace)
-] @keyword.namespace
+] @keyword
 
-(namespace_statement
-  name: (dotted_identifier) @namespace.name)
-
-; Enum keywords
 [
   (enum_start)
   (end_enum)
-] @keyword.enum
+] @keyword
 
-(enum_statement
-  name: (identifier) @enum.name)
-
-(enum_member
-  name: (identifier) @enum.member)
-
-; Parameters
-(parameter
-  name: (identifier) @variable.parameter)
-
-; Types
-(type_specifier) @type
-
-; Variables
-; Base variable in variable declarator (immediate child of prefix_exp)
-(variable_declarator
-  (prefix_exp
-    (identifier) @variable
-    (#not-has-ancestor? @variable prefix_exp)))
-
-; Properties in variable declarator
-(variable_declarator
-  (prefix_exp)
-  (identifier) @property)
-
-(multiplicative_expression
-  operator: (_) @keyword.operator)
-
-(logical_not_expression
-  operator: (_) @keyword.operator)
-
-(logical_expression
-  operator: (_) @keyword.operator)
-
-; Property access
-; First identifier in a chain (base variable)
-(prefix_exp
-  .
-  (identifier) @variable
-  (#not-has-ancestor? @variable prefix_exp))
-
-; All other identifiers in a chain (properties)
-(prefix_exp
-  (prefix_exp)
-  (identifier) @property)
-
-; Function calls
-(function_call
-  function: (prefix_exp
-    (identifier) @function.call))
-
-; Statements
 [
   (if_start)
-  (else)
-  (else_if)
   (end_if)
   (then)
   (conditional_compl_end_if)
@@ -136,20 +37,14 @@
 
 [
   (for_start)
-  (while_start)
   (for_each)
   (for_in)
   (for_to)
   (for_step)
   (end_for)
-  (end_while)
-  (exit_while_statement)
-  (exit_for_statement)
-  (continue_while_statement)
   (continue_for_statement)
 ] @keyword.repeat
 
-; Statements
 [
   (try_start)
   (try_catch)
@@ -158,44 +53,140 @@
 ] @keyword.exception
 
 (return) @keyword.return
+(new) @keyword
+(import) @keyword.import
+(const) @keyword
+(as) @keyword
+(or) @keyword.operator
+(not) @keyword.operator
+(and) @keyword.operator
+(mod) @keyword.operator
+(super) @variable.builtin
+(override) @keyword
 
-(print) @function.builtin
+; Access modifiers
+[
+  (public)
+  (private)
+  (protected)
+] @keyword
 
-(constant) @constant
+; Special identifiers
+(m) @variable.builtin
 
-; Const statements
-(const_statement) @keyword.const
+; Function/Sub declarations
+(function_statement
+  name: (identifier) @function)
 
+(sub_statement
+  name: (identifier) @function)
+
+; Class declarations
+(class_statement
+  name: (identifier) @type)
+
+(class_heritage
+  superclass: (identifier) @type)
+
+; Interface declarations
+(interface_statement
+  name: (identifier) @type)
+
+; Namespace declarations
+(namespace_statement
+  name: (dotted_identifier) @module)
+
+; Enum declarations
+(enum_statement
+  name: (identifier) @type)
+
+(enum_member
+  name: (identifier) @constant)
+
+; Const declarations
 (const_statement
-  name: (identifier) @constant.name)
+  name: (identifier) @constant)
+
+; Parameters
+(parameter
+  name: (identifier) @variable.parameter)
+
+; Type specifiers
+(type_specifier) @type
+
+; Annotations
+(annotation
+  "@" @attribute
+  name: (identifier) @attribute)
+
+; Function calls
+(function_call
+  function: (prefix_exp
+    (identifier) @function.call))
+
+; new expression
+(new_expression
+  class: (dotted_identifier) @type)
+
+; Class fields
+(class_field
+  name: (identifier) @variable.member)
+
+; Class methods (name is on the inner function_statement/sub_statement)
+(class_method
+  (function_statement
+    name: (identifier) @function.method))
+
+(class_method
+  (sub_statement
+    name: (identifier) @function.method))
+
+; Interface fields
+(interface_field
+  name: (identifier) @variable.member)
+
+; Import statements
+(import_statement
+  path: (string) @string)
+
+; Associative array elements
+(assoc_array_element
+  key: (identifier) @property)
+
+; Property access via prefix_exp chain
+(prefix_exp
+  (prefix_exp)
+  "." @punctuation.delimiter
+  (identifier) @property)
+
+(prefix_exp
+  (prefix_exp)
+  "?." @punctuation.delimiter
+  (identifier) @property)
 
 ; Operators
 [
   "="
   "<>"
-  "<"
-  "<="
-  ">"
-  ">="
   "+"
   "-"
   "*"
   "/"
+  "??"
+  "@."
 ] @operator
 
 ; Literals
 (boolean) @boolean
-
 (number) @number
-
 (string) @string
+(string_contents) @string
+(invalid) @constant.builtin
 
+; Template strings
 (template_string) @string
 (template_literal) @string
-(escaped_backtick) @string
-(escaped_dollar) @string
-
-(invalid) @constant.builtin
+(template_interpolation) @punctuation.special
 
 ; Comments
 (comment) @comment @spell
@@ -208,65 +199,24 @@
   "]"
   "{"
   "}"
-  "?["
 ] @punctuation.bracket
 
 [
   "."
   ","
-  "?."
+  ":"
+  ";"
 ] @punctuation.delimiter
 
-; Special highlights for library statements
-(library_statement) @keyword.import
+; Print
+(print) @function.builtin
 
-(library_statement
-  path: (string) @module)
-
-; Import statements
-(import_statement) @keyword.import
-
-(import_statement
-  path: (string) @module)
-
-; Array and associative array literals
+; Arrays
 (array) @constructor
-
 (assoc_array) @constructor
 
-(assoc_array_element
-  key: (identifier) @property)
-
-; Increment/decrement operators
-[
-  (prefix_increment_expression)
-  (prefix_decrement_expression)
-  (postfix_increment_expression)
-  (postfix_decrement_expression)
-] @operator
-
-; Comparison operators
-(comparison_expression
-  [
-    "="
-    "<>"
-    "<"
-    "<="
-    ">"
-    ">="
-  ] @operator)
-
-; Ternary operators
-[
-  "?"
-  ":"
-] @operator
-
-; Callfunc operator
-"@." @operator
-
-(as) @keyword.operator
-(m) @keyword
+; Dotted identifiers (namespaced types)
+(dotted_identifier) @type
 
 ; Alias and type statements
 (alias) @keyword
@@ -280,10 +230,6 @@
 
 (type_union) @type
 
-; Type cast expression
-(type_cast_expression
-  type: (_) @type)
-
 ; Source literals
 (source_literal) @constant.builtin
 
@@ -295,6 +241,3 @@
 ; Tagged template strings
 (tagged_template_string
   tag: (identifier) @function.call)
-
-; Template strings
-(template_interpolation) @punctuation.bracket
