@@ -241,3 +241,4 @@
 ; Tagged template strings
 (tagged_template_string
   tag: (identifier) @function.call)
+
