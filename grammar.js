@@ -32,6 +32,9 @@ module.exports = grammar({
 
   conflicts: ($) => [
     [$.variable_declarator, $._prefix_exp],
+    [$.class_field, $.class_method],
+    [$.annotation],
+    [$.compound_statement],
   ],
 
   rules: {
@@ -70,15 +73,27 @@ module.exports = grammar({
 
     annonymous_function: $ => seq(
       seq($.function_start),
-      $.sub_impl
+      $.function_impl
     ),
 
     function_impl: $ => seq(
       field('parameters', $.parameter_list),
       optional(field('return_type', $.return_type)),
-      optional(field('body', $.block)),
+      optional(field('body', choice($.block, $.inline_body))),
       $.end_statement
     ),
+
+    sub_impl: $ => seq(
+      field('parameters', $.parameter_list),
+      optional(field('body', choice($.block, $.inline_body))),
+      $.end_statement
+    ),
+
+    inline_body: $ => prec(2, seq(
+      ':',
+      $._single_line_statement,
+      repeat(seq(':', $._single_line_statement))
+    )),
 
     sub_start: () => /sub/i,
 
@@ -94,7 +109,7 @@ module.exports = grammar({
 
     sub_impl: $ => seq(
       field('parameters', $.parameter_list),
-      optional(field('body', $.block)),
+      optional(field('body', choice($.block, $.inline_body))),
       $.end_statement
     ),
 
@@ -131,7 +146,13 @@ module.exports = grammar({
       $.print_statement,
       $.throw_statement,
       $.increment_decrement_statement,
+      $.compound_statement,
     )),
+
+    compound_statement: $ => seq(
+      $._single_line_statement,
+      repeat1(seq(':', $._single_line_statement))
+    ),
 
     _expression: $ => choice(
       $.new_expression,
@@ -295,15 +316,17 @@ module.exports = grammar({
     ),
 
     class_field: $ => seq(
-      optional(field('annotation', $.annotation)),
+      optional(repeat1(field('annotation', $.annotation))),
       optional($.access_modifier),
       field('name', $.identifier),
-      optional(seq('=', field('value', $._expression))),
-      optional($.type_specifier)
+      optional(choice(
+        seq($.type_specifier, optional(seq('=', field('value', $._expression)))),
+        seq('=', field('value', $._expression), optional($.type_specifier))
+      ))
     ),
 
     class_method: $ => seq(
-      optional(field('annotation', $.annotation)),
+      optional(repeat1(field('annotation', $.annotation))),
       optional($.access_modifier),
       optional(alias(/override/i, $.override)),
       choice(
@@ -383,10 +406,9 @@ module.exports = grammar({
 
     parameter: $ => seq(
       field('name', $.identifier),
-      optional(seq('=', $._expression)),
-      optional(
-        $.type_specifier
-      )
+      optional($.type_specifier),
+      optional(seq('=', field('default', $._expression))),
+      optional($.type_specifier)
     ),
 
     return_type: $ => $.type_specifier,
@@ -415,7 +437,8 @@ module.exports = grammar({
 
     type_specifier: $ => seq(
       $.as,
-      field('type', $._type_with_array)
+      field('type', $._type_with_array),
+      optional(repeat1(seq($.or, $._type_with_array)))
     ),
 
     _prefix_exp: ($) =>
@@ -597,6 +620,7 @@ module.exports = grammar({
       repeat(choice(
         alias(seq('\\`'), $.escaped_backtick),
         alias(seq('\\$'), $.escaped_dollar),
+        alias("'", $.template_single_quote),
         alias(/[^`$\\]+/, $.template_literal),
         $.template_interpolation
       )),
@@ -659,7 +683,17 @@ module.exports = grammar({
 
     array: $ => seq(
       '[',
-      optional(commaSep($._expression)),
+      optional($._new_line),
+      optional(seq(
+        $._expression,
+        repeat(seq(
+          optional(','),
+          optional($._new_line),
+          $._expression
+        )),
+        optional(','),
+        optional($._new_line)
+      )),
       ']'
     ),
 
@@ -730,7 +764,15 @@ module.exports = grammar({
       optional(seq('=', field('value', $._expression)))
     ),
 
-    interface_member: $ => $.interface_method_signature,
+    interface_member: $ => choice(
+      $.interface_field,
+      $.interface_method_signature
+    ),
+
+    interface_field: $ => seq(
+      field('name', $.identifier),
+      $.type_specifier
+    ),
 
     interface_method_signature: $ => seq(
       choice(
@@ -763,7 +805,10 @@ module.exports = grammar({
     annotation: $ => seq(
       '@',
       field('name', $.identifier),
-      optional($.annotation_arguments)
+      optional(choice(
+        $.annotation_arguments,
+        seq(field('target', $.identifier), $.type_specifier)
+      ))
     ),
 
     annotation_arguments: $ => seq(
@@ -782,8 +827,9 @@ module.exports = grammar({
     ),
 
     // Miscellaneous
-    identifier: $ => choice($.m, $.regular_identifier),
+    identifier: $ => choice($.m, $.super, $.regular_identifier),
     m: $ => /m/i,
+    super: $ => /super/i,
     regular_identifier: $ => token(prec(0, /[a-zA-Z_][a-zA-Z0-9_]*/)),
   }
 });

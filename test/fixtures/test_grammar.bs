@@ -1,0 +1,332 @@
+' Test file for BrighterScript tree-sitter grammar
+' This file contains examples of all syntax patterns that need to be supported
+
+import "pkg:/source/utils/helpers.bs"
+import "pkg:/source/services/base.bs"
+
+' ============================================
+' Issue 46: Constants at module level
+' ============================================
+const ERROR_CANCELLED = -10001
+const ERROR_BAD_REQUEST = -20000
+const MAX_RATE = 2147483647
+
+' ============================================
+' Issue 23, 47: Enum with positive and negative values
+' ============================================
+enum Status
+    pending = "pending"
+    resolved = "resolved"
+    rejected = "rejected"
+end enum
+
+enum ErrorCodes
+    HOST_NOT_FOUND = -6
+    CONNECTION_FAILED = -7
+    TIMEOUT = -28
+    SUCCESS = 0
+end enum
+
+' ============================================
+' Issue 24: Interface declaration
+' ============================================
+interface DataResult
+    message as string
+    errors as dynamic
+    code as integer
+end interface
+
+' ============================================
+' Issue 45: Namespace with constants
+' ============================================
+namespace Config
+    const BACKGROUND_COLOR = "#000000"
+    const TIMEOUT_MS = 30000
+    const DEFAULT_LABEL = "Default"
+end namespace
+
+' ============================================
+' Issue 3, 31: Namespace with classes and nested namespaces
+' ============================================
+namespace myapp
+    namespace internal
+        function helper() as void
+        end function
+    end namespace
+
+    class Utils
+        function process() as void
+        end function
+    end class
+end namespace
+
+' ============================================
+' Issue 37, 2, 42, 44: Class with extends, fields, union types, override
+' ============================================
+class MyService extends BaseService
+
+    ' Issue 2: Class fields with type + default value
+    private cache as DataCache = DataCache()
+    protected label = "DefaultLabel"
+    public data = invalid
+    
+    ' Issue 42: Union types in variable declarations
+    protected config as ServiceConfig OR object
+    private handler as EventHandler OR invalid
+
+    ' Issue 1: Array with newline separation (dependencies pattern)
+    dependencies = [
+        "ConfigModel"
+        "Logger"
+        "Reporter"
+    ]
+
+    ' Issue 33: Class constructor
+    sub new()
+        super()
+        m.cache = new DataCache()
+    end sub
+
+    ' Issue 44: protected override combination
+    protected override sub onInit()
+        super.onInit()
+        m.logger = m.logger.withContext("SERVICE")
+    end sub
+
+    protected override function getDefaults() as Object
+        return new ServiceConfig()
+    end function
+
+    ' Issue 5, 43: Parameters with type before/after default, union types
+    function process(id as string, config = invalid as ConfigType OR object) as void
+        m.handler.process(id)
+    end function
+
+    ' Issue 51: Default parameter with m.property
+    public function check(data = m.ignoreValue as Dynamic) as Boolean
+        return data <> invalid
+    end function
+
+    ' Issue 38, 39: Optional chaining and null coalescing
+    public function request(requestObj as RequestObject) as Object
+        if requestObj?.url = invalid
+            return invalid
+        end if
+
+        m.data = requestObj.getData() ?? ""
+        m.config = requestObj.config ?? {}
+        expires = response.expires ?? -1
+
+        return m.process(requestObj)
+    end function
+
+    ' Issue 7, 49: Anonymous functions as callback arguments
+    private sub performTask(taskObj as Object)
+        result = findInArray(m.items, function(item as Object, index as Integer) as Boolean
+            return item.id = targetId
+        end function)
+
+        doAsync(promise, function(ctx as roAssociativeArray)
+            ctx.handler.process(ctx.data)
+        end function, { data: data, handler: m })
+    end sub
+
+    ' Issue 21: Preprocessor directives
+    public sub logDebug(message as string)
+        #if DEBUG_MODE
+            print message
+        #end if
+    end sub
+
+end class
+
+' ============================================
+' Issue 40: continue for statement
+' ============================================
+function processItems(items as Object) as void
+    for each item in items
+        if NOT isValid(item) then continue for
+        if item.skip = true then continue for
+        process(item)
+    end for
+end function
+
+' ============================================
+' Issue 29: Negative loop step
+' ============================================
+function reverseProcess(items as Object) as void
+    for i = items.count() - 1 to 0 step -1
+        process(items[i])
+    end for
+end function
+
+' ============================================
+' Issue 4: Template strings with interpolation
+' ============================================
+function formatMessage(name as string, count as integer) as string
+    return `Hello ${name}, you have ${count} messages`
+end function
+
+sub logAction(action as string, section as string)
+    m.history.push(`performed '${action}' on section '${section}'`)
+end sub
+
+' ============================================
+' Issue 25, 13: Union return types and namespaced types
+' ============================================
+function getValue() as string or dynamic
+    return m.value
+end function
+
+function getItems() as myapp.Item[]
+    return m.items
+end function
+
+function processItem(item = invalid as myapp.ItemType) as void
+end function
+
+' ============================================
+' Issue 6: Callfunc operator @.
+' ============================================
+sub callRemote(node as Object)
+    node@.loadData(m.path)
+    result = m.component@.getValue()
+    m.global.manager@.process("input")
+end sub
+
+' ============================================
+' Issue 50: new keyword for instantiation
+' ============================================
+sub createInstances()
+    instance = new MyClass()
+    config = new MyConfig("default")
+    handler = new myapp.EventHandler(m, "callback", "id", [arg1, arg2])
+end sub
+
+' ============================================
+' Issue 10: Annotations
+' ============================================
+@suite
+class TestSuite extends BaseTestSuite
+
+    @describe("feature tests")
+    @it("should process correctly")
+    function _()
+        m.assertTrue(true)
+    end function
+
+    @it("parameterized test")
+    @params(true, false, false)
+    @params([1, 2, 3], [1, 2, 3])
+    @params({ key: "value" }, "expected")
+    function _(arg1, arg2, expected)
+        m.assertEqual(arg1, expected)
+    end function
+
+end class
+
+' ============================================
+' Issue 10: @inject annotation for production classes
+' ============================================
+class DataService extends BaseService
+    @inject configManager as Config.Manager
+    @inject logger as Logger
+    @inject httpClient as Http.Client
+    @inject cacheService as Cache.Service
+
+    private data as Object
+
+    sub new()
+        super()
+        m.data = {}
+    end sub
+
+    public function fetchData(url as string) as Object
+        m.logger.debug("Fetching data from: " + url)
+        response = m.httpClient.get(url)
+        return response
+    end function
+end class
+
+class FeatureController extends BaseController
+    @inject dataService as DataService
+    @inject analytics as Analytics.Tracker
+    @inject featureFlags as FeatureFlags
+
+    sub new()
+        super()
+    end sub
+
+    public sub initialize()
+        if m.featureFlags.isEnabled("newFeature")
+            m.analytics.track("feature_init")
+        end if
+    end sub
+end class
+
+' ============================================
+' Issue 27: Anonymous functions in AA literals
+' ============================================
+function getCallbacks() as Object
+    return {
+        onSuccess: function(value)
+            return value = true
+        end function
+        onError: function(err)
+            print err.message
+        end function
+    }
+end function
+
+' ============================================
+' Issue 28: Print with semicolons
+' ============================================
+sub debugPrint(value as Dynamic)
+    print "Value: " ; value ; " items"
+    print value.toStr() ; " (" ; type(value) ; ")"
+end sub
+
+' ============================================
+' Issue 22: Throw statement
+' ============================================
+sub validateInput(input as Dynamic)
+    if input = invalid
+        throw "Input cannot be invalid"
+    end if
+end sub
+
+' ============================================
+' Issue 36: bs:disable-line comments
+' ============================================
+sub specialCase()
+    result = someCall() ' bs:disable-line 1140
+    other = anotherCall() ' bs:disable-line: LINT1005
+end sub
+
+' ============================================
+' Issue 48: @deprecated in doc comments
+' ============================================
+' @deprecated use newMethod instead
+function oldMethod() as void
+end function
+
+' ============================================
+' Issue 35: Inline AA shorthand
+' ============================================
+sub passData(handler as Object)
+    handler.process({ stats: m.stats, tests: m.tests })
+    callback(data, { group: group, self: m })
+end sub
+
+' ============================================
+' Issue 8: Try/catch
+' ============================================
+sub safeOperation()
+    try
+        doSomething()
+    catch err
+        handleError("operation failed", err)
+    end try
+end sub
+
+
