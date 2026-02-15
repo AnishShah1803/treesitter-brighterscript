@@ -1,0 +1,51 @@
+' Classes fixture - validates class parsing against BrighterScript compiler
+
+class SimpleClass
+end class
+
+class Animal
+    public name as string
+    private age as integer
+    protected speed = 0
+
+    sub new(name as string, age as integer)
+        m.name = name
+        m.age = age
+    end sub
+
+    public function getName() as string
+        return m.name
+    end function
+
+    private sub setAge(age as integer)
+        m.age = age
+    end sub
+end class
+
+class Dog extends Animal
+    public breed as string
+
+    sub new(name as string, breed as string)
+        super(name, 0)
+        m.breed = breed
+    end sub
+
+    override function getName() as string
+        return m.name + " the " + m.breed
+    end function
+end class
+
+interface IRunnable
+    sub run()
+    function getSpeed() as integer
+end interface
+
+class Runner extends Animal implements IRunnable
+    public sub run()
+        print "running"
+    end sub
+
+    public function getSpeed() as integer
+        return m.speed
+    end function
+end class

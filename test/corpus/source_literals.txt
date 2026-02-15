@@ -1,0 +1,117 @@
+==================
+SOURCE_FILE_PATH literal
+==================
+
+sub test()
+    path = SOURCE_FILE_PATH
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (literal
+          (source_literal))))
+    (end_statement
+      (end_sub))))
+
+==================
+SOURCE_FUNCTION_NAME literal
+==================
+
+sub test()
+    name = SOURCE_FUNCTION_NAME
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (literal
+          (source_literal))))
+    (end_statement
+      (end_sub))))
+
+==================
+SOURCE_LINE_NUM literal
+==================
+
+sub test()
+    line = SOURCE_LINE_NUM
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (literal
+          (source_literal))))
+    (end_statement
+      (end_sub))))
+
+==================
+Multiple source literals
+==================
+
+sub test()
+    path = SOURCE_FILE_PATH
+    loc = SOURCE_LOCATION
+    pkg = PKG_PATH
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (literal
+          (source_literal)))
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (literal
+          (source_literal)))
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (literal
+          (source_literal))))
+    (end_statement
+      (end_sub))))

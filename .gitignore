@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+/build/
+*.wasm
+
+# Tree-sitter internal (parser.c needed for installation)
+/src/tree_sitter/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build outputs from bsc verification
+out/
+
+# AI context files
+.ralph-lock
+.ralph-state.json
+.ralph-done
+AGENTS.md

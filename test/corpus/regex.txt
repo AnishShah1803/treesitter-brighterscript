@@ -1,0 +1,82 @@
+==================
+Regex literal with flags
+==================
+
+sub test()
+    pattern = /hello world/gi
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (literal
+          (regex_literal
+            pattern: (regex_pattern)
+            flags: (regex_flags)))))
+    (end_statement
+      (end_sub))))
+
+==================
+Regex literal without flags
+==================
+
+sub test()
+    simple = /test/
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (literal
+          (regex_literal
+            pattern: (regex_pattern)))))
+    (end_statement
+      (end_sub))))
+
+==================
+Regex with special characters
+==================
+
+sub test()
+    emailRegex = /[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+/i
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (literal
+          (regex_literal
+            pattern: (regex_pattern)
+            flags: (regex_flags)))))
+    (end_statement
+      (end_sub))))

@@ -1,0 +1,35 @@
+{
+  "name": "tree-sitter-brighterscript",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for BrighterScript, a superset of Roku's BrightScript language",
+  "main": "bindings/node/index.js",
+  "scripts": {
+    "build": "tree-sitter generate",
+    "test": "tree-sitter test",
+    "parse": "tree-sitter parse"
+  },
+  "keywords": [
+    "tree-sitter",
+    "brighterscript",
+    "brightscript",
+    "roku",
+    "parser",
+    "grammar"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "@rokucommunity/bslint-next": "npm:@rokucommunity/bslint@1.0.0-alpha.50",
+    "brighterscript-next": "npm:brighterscript@1.0.0-alpha.50",
+    "tree-sitter-cli": "^0.26.5"
+  },
+  "tree-sitter": {
+    "file-types": [
+      "bs",
+      "brs"
+    ],
+    "scope": "source.brighterscript",
+    "injection-regex": "^(brighterscript|bs|brightscript|brs)$"
+  }
+}

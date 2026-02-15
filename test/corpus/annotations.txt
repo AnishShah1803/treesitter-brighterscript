@@ -1,0 +1,209 @@
+==================
+Simple annotation on class
+==================
+
+@myAnnotation
+class MyClass
+end class
+
+---
+
+(source_file
+  (class_statement
+    annotation: (annotation
+      name: (identifier
+        (regular_identifier)))
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    (end_class)))
+
+==================
+Annotation with string argument
+==================
+
+@deprecated("Use NewClass instead")
+class OldClass
+end class
+
+---
+
+(source_file
+  (class_statement
+    annotation: (annotation
+      name: (identifier
+        (regular_identifier))
+      (annotation_arguments
+        positional: (literal
+          (string
+            (string_contents)))))
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    (end_class)))
+
+==================
+Annotation with named arguments
+==================
+
+@metadata(author="John", version=1.0)
+class MyClass
+end class
+
+---
+
+(source_file
+  (class_statement
+    annotation: (annotation
+      name: (identifier
+        (regular_identifier))
+      (annotation_arguments
+        positional: (binary_expression
+          (comparison_expression
+            left: (prefix_exp
+              (identifier
+                (regular_identifier)))
+            right: (literal
+              (string
+                (string_contents)))))
+        positional: (binary_expression
+          (comparison_expression
+            left: (prefix_exp
+              (identifier
+                (regular_identifier)))
+            right: (literal
+              (number))))))
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    (end_class)))
+
+==================
+Annotation on class field
+==================
+
+class MyClass
+    @readonly
+    public name as string
+end class
+
+---
+
+(source_file
+  (class_statement
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    body: (class_body
+      (class_member
+        (class_field
+          annotation: (annotation
+            name: (identifier
+              (regular_identifier)))
+          (access_modifier
+            (public))
+          name: (identifier
+            (regular_identifier))
+          (type_specifier
+            (as)))))
+    (end_class)))
+
+==================
+Annotation on class method
+==================
+
+class MyClass
+    @deprecated
+    public function doSomething()
+    end function
+end class
+
+---
+
+(source_file
+  (class_statement
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    body: (class_body
+      (class_member
+        (class_method
+          annotation: (annotation
+            name: (identifier
+              (regular_identifier)))
+          (access_modifier
+            (public))
+          (function_statement
+            (function_start)
+            name: (identifier
+              (regular_identifier))
+            parameters: (parameter_list)
+            (end_statement
+              (end_function))))))
+    (end_class)))
+
+==================
+Multiple annotations on class
+==================
+
+@author("John")
+@version(1.0)
+class MyClass
+end class
+
+---
+
+(source_file
+  (class_statement
+    annotation: (annotation
+      name: (identifier
+        (regular_identifier))
+      (annotation_arguments
+        positional: (literal
+          (string
+            (string_contents)))))
+    annotation: (annotation
+      name: (identifier
+        (regular_identifier))
+      (annotation_arguments
+        positional: (literal
+          (number))))
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    (end_class)))
+
+==================
+Annotation with boolean and number arguments
+==================
+
+@config(enabled=true, timeout=30)
+class Service
+end class
+
+---
+
+(source_file
+  (class_statement
+    annotation: (annotation
+      name: (identifier
+        (regular_identifier))
+      (annotation_arguments
+        positional: (binary_expression
+          (comparison_expression
+            left: (prefix_exp
+              (identifier
+                (regular_identifier)))
+            right: (literal
+              (boolean))))
+        positional: (binary_expression
+          (comparison_expression
+            left: (prefix_exp
+              (identifier
+                (regular_identifier)))
+            right: (literal
+              (number))))))
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    (end_class)))

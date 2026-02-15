@@ -1,0 +1,7 @@
+{
+    "rootDir": "test/fixtures",
+    "files": ["**/*.bs"],
+    "noEmit": true,
+    "diagnosticLevel": "error",
+    "autoImportComponentScript": false
+}

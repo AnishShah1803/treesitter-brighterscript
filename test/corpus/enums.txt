@@ -1,0 +1,161 @@
+==================
+Simple enum test
+==================
+
+enum Direction
+    Up
+    Down
+    Left
+    Right
+end enum
+
+---
+
+(source_file
+  (enum_statement
+    (enum_start)
+    name: (identifier
+      (regular_identifier))
+    body: (enum_body
+      (enum_member
+        name: (identifier
+          (regular_identifier)))
+      (enum_member
+        name: (identifier
+          (regular_identifier)))
+      (enum_member
+        name: (identifier
+          (regular_identifier)))
+      (enum_member
+        name: (identifier
+          (regular_identifier))))
+    (end_enum)))
+
+==================
+Enum with string values
+==================
+
+enum RemoteButton
+    up = "up"
+    down = "down"
+    left = "left"
+    right = "right"
+end enum
+
+---
+
+(source_file
+  (enum_statement
+    (enum_start)
+    name: (identifier
+      (regular_identifier))
+    body: (enum_body
+      (enum_member
+        name: (identifier
+          (regular_identifier))
+        value: (literal
+          (string
+            (string_contents))))
+      (enum_member
+        name: (identifier
+          (regular_identifier))
+        value: (literal
+          (string
+            (string_contents))))
+      (enum_member
+        name: (identifier
+          (regular_identifier))
+        value: (literal
+          (string
+            (string_contents))))
+      (enum_member
+        name: (identifier
+          (regular_identifier))
+        value: (literal
+          (string
+            (string_contents)))))
+    (end_enum)))
+
+==================
+Enum with integer values
+==================
+
+enum StatusCode
+    OK = 200
+    NotFound = 404
+    Error = 500
+end enum
+
+---
+
+(source_file
+  (enum_statement
+    (enum_start)
+    name: (identifier
+      (regular_identifier))
+    body: (enum_body
+      (enum_member
+        name: (identifier
+          (regular_identifier))
+        value: (literal
+          (number)))
+      (enum_member
+        name: (identifier
+          (regular_identifier))
+        value: (literal
+          (number)))
+      (enum_member
+        name: (identifier
+          (regular_identifier))
+        value: (literal
+          (number))))
+    (end_enum)))
+
+==================
+Enum with mixed explicit values
+==================
+
+enum Priority
+    Low = 1
+    Medium
+    High = 10
+end enum
+
+---
+
+(source_file
+  (enum_statement
+    (enum_start)
+    name: (identifier
+      (regular_identifier))
+    body: (enum_body
+      (enum_member
+        name: (identifier
+          (regular_identifier))
+        value: (literal
+          (number)))
+      (enum_member
+        name: (identifier
+          (regular_identifier)))
+      (enum_member
+        name: (identifier
+          (regular_identifier))
+        value: (literal
+          (number))))
+    (end_enum)))
+
+==================
+Empty enum
+==================
+
+enum EmptyEnum
+end enum
+
+---
+
+(source_file
+  (enum_statement
+    (enum_start)
+    name: (identifier
+      (regular_identifier))
+    (end_enum)))

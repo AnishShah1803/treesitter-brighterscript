@@ -1,0 +1,399 @@
+===================
+Function return type - class type
+===================
+
+function getValue() as MyClass
+end function
+
+---
+
+(source_file
+  (function_statement
+    (function_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    return_type: (return_type
+      (type_specifier
+        (as)
+        type: (dotted_identifier
+          (identifier
+            (regular_identifier)))))
+    (end_statement
+      (end_function))))
+
+===================
+Function return type - namespaced class type
+===================
+
+function getValue() as MyNamespace.MyClass
+end function
+
+---
+
+(source_file
+  (function_statement
+    (function_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    return_type: (return_type
+      (type_specifier
+        (as)
+        type: (dotted_identifier
+          (identifier
+            (regular_identifier))
+          (identifier
+            (regular_identifier)))))
+    (end_statement
+      (end_function))))
+
+===================
+Function return type - array of primitive
+===================
+
+function getItems() as string[]
+end function
+
+---
+
+(source_file
+  (function_statement
+    (function_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    return_type: (return_type
+      (type_specifier
+        (as)))
+    (end_statement
+      (end_function))))
+
+===================
+Function return type - array of class
+===================
+
+function getItems() as MyClass[]
+end function
+
+---
+
+(source_file
+  (function_statement
+    (function_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    return_type: (return_type
+      (type_specifier
+        (as)
+        element_type: (dotted_identifier
+          (identifier
+            (regular_identifier)))))
+    (end_statement
+      (end_function))))
+
+===================
+Function return type - array of namespaced class
+===================
+
+function getItems() as MyNamespace.MyClass[]
+end function
+
+---
+
+(source_file
+  (function_statement
+    (function_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    return_type: (return_type
+      (type_specifier
+        (as)
+        element_type: (dotted_identifier
+          (identifier
+            (regular_identifier))
+          (identifier
+            (regular_identifier)))))
+    (end_statement
+      (end_function))))
+
+===================
+Function parameter with class type
+===================
+
+function greet(person as Person)
+end function
+
+---
+
+(source_file
+  (function_statement
+    (function_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list
+      (parameter
+        name: (identifier
+          (regular_identifier))
+        (type_specifier
+          (as)
+          type: (dotted_identifier
+            (identifier
+              (regular_identifier))))))
+    (end_statement
+      (end_function))))
+
+===================
+Function parameter with namespaced type
+===================
+
+function process(item as Utils.Processor)
+end function
+
+---
+
+(source_file
+  (function_statement
+    (function_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list
+      (parameter
+        name: (identifier
+          (regular_identifier))
+        (type_specifier
+          (as)
+          type: (dotted_identifier
+            (identifier
+              (regular_identifier))
+            (identifier
+              (regular_identifier))))))
+    (end_statement
+      (end_function))))
+
+===================
+Function parameter with array type
+===================
+
+function process(items as string[])
+end function
+
+---
+
+(source_file
+  (function_statement
+    (function_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list
+      (parameter
+        name: (identifier
+          (regular_identifier))
+        (type_specifier
+          (as))))
+    (end_statement
+      (end_function))))
+
+===================
+Function with multiple typed parameters
+===================
+
+function add(a as integer, b as integer) as integer
+end function
+
+---
+
+(source_file
+  (function_statement
+    (function_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list
+      (parameter
+        name: (identifier
+          (regular_identifier))
+        (type_specifier
+          (as)))
+      (parameter
+        name: (identifier
+          (regular_identifier))
+        (type_specifier
+          (as))))
+    return_type: (return_type
+      (type_specifier
+        (as)))
+    (end_statement
+      (end_function))))
+
+===================
+Class field with class type
+===================
+
+class Person
+    public name as string
+    public spouse as Person
+end class
+
+---
+
+(source_file
+  (class_statement
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    body: (class_body
+      (class_member
+        (class_field
+          (access_modifier
+            (public))
+          name: (identifier
+            (regular_identifier))
+          (type_specifier
+            (as))))
+      (class_member
+        (class_field
+          (access_modifier
+            (public))
+          name: (identifier
+            (regular_identifier))
+          (type_specifier
+            (as)
+            type: (dotted_identifier
+              (identifier
+                (regular_identifier)))))))
+    (end_class)))
+
+===================
+Class field with namespaced type
+===================
+
+class Widget
+    public config as App.Config
+end class
+
+---
+
+(source_file
+  (class_statement
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    body: (class_body
+      (class_member
+        (class_field
+          (access_modifier
+            (public))
+          name: (identifier
+            (regular_identifier))
+          (type_specifier
+            (as)
+            type: (dotted_identifier
+              (identifier
+                (regular_identifier))
+              (identifier
+                (regular_identifier)))))))
+    (end_class)))
+
+===================
+Class field with array type
+===================
+
+class Container
+    public items as string[]
+    public children as Widget[]
+end class
+
+---
+
+(source_file
+  (class_statement
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    body: (class_body
+      (class_member
+        (class_field
+          (access_modifier
+            (public))
+          name: (identifier
+            (regular_identifier))
+          (type_specifier
+            (as))))
+      (class_member
+        (class_field
+          (access_modifier
+            (public))
+          name: (identifier
+            (regular_identifier))
+          (type_specifier
+            (as)
+            element_type: (dotted_identifier
+              (identifier
+                (regular_identifier)))))))
+    (end_class)))
+
+===================
+Interface method with return type
+===================
+
+interface IProcessor
+    function process(input as string) as boolean
+end interface
+
+---
+
+(source_file
+  (interface_statement
+    (interface_start)
+    name: (identifier
+      (regular_identifier))
+    body: (interface_body
+      (interface_member
+        (interface_method_signature
+          (function_start)
+          name: (identifier
+            (regular_identifier))
+          (parameter_list
+            (parameter
+              name: (identifier
+                (regular_identifier))
+              (type_specifier
+                (as))))
+          (return_type
+            (type_specifier
+              (as))))))
+    (end_interface)))
+
+===================
+Interface method with namespaced return type
+===================
+
+interface IFactory
+    function create() as Models.User
+end interface
+
+---
+
+(source_file
+  (interface_statement
+    (interface_start)
+    name: (identifier
+      (regular_identifier))
+    body: (interface_body
+      (interface_member
+        (interface_method_signature
+          (function_start)
+          name: (identifier
+            (regular_identifier))
+          (parameter_list)
+          (return_type
+            (type_specifier
+              (as)
+              type: (dotted_identifier
+                (identifier
+                  (regular_identifier))
+                (identifier
+                  (regular_identifier))))))))
+    (end_interface)))

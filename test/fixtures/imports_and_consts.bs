@@ -1,0 +1,15 @@
+' Imports and constants fixture
+
+import "pkg:/source/utils.bs"
+import "pkg:/source/models/Animal.bs"
+
+const MAX_RETRIES = 3
+const API_URL = "https://api.example.com"
+const DEBUG = true
+const EMPTY_LIST = []
+const DEFAULT_CONFIG = { timeout: 30, retries: 3 }
+
+sub main()
+    print MAX_RETRIES
+    print API_URL
+end sub

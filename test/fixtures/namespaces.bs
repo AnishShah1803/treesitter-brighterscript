@@ -1,0 +1,27 @@
+' Namespaces fixture - validates namespace parsing
+
+namespace MyApp
+    function init() as void
+        print "init"
+    end function
+end namespace
+
+namespace MyApp.Utils
+    const VERSION = "1.0.0"
+
+    function helper() as string
+        return "help"
+    end function
+
+    class Logger
+        public sub log(message as string)
+            print message
+        end sub
+    end class
+end namespace
+
+namespace MyApp.Utils.Internal
+    function deepHelper() as void
+        print "deep"
+    end function
+end namespace

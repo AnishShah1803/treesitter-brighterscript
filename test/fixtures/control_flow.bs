@@ -1,0 +1,47 @@
+' Control flow fixture - if/for/while/try
+
+sub testControlFlow()
+    ' If/else
+    if true then print "yes"
+    if x > 0
+        print "positive"
+    else if x = 0
+        print "zero"
+    else
+        print "negative"
+    end if
+
+    ' For loop
+    for i = 0 to 10
+        print i
+    end for
+
+    for i = 0 to 100 step 5
+        print i
+    end for
+
+    ' For each
+    items = [1, 2, 3]
+    for each item in items
+        print item
+    end for
+
+    ' While
+    count = 0
+    while count < 10
+        count++
+        if count = 5
+            continue while
+        end if
+        if count = 8
+            exit while
+        end if
+    end while
+
+    ' Try/catch
+    try
+        result = riskyOperation()
+    catch e
+        print e.message
+    end try
+end sub

@@ -1,0 +1,53 @@
+' New BrighterScript v1 features fixture
+
+' Callfunc operator
+sub testCallfunc()
+    result = obj@.doSomething()
+    result = obj@.doSomething(arg1, arg2)
+    result = m.node@.callFunc("getChildren")
+end sub
+
+' Type casting
+sub testTypeCast()
+    user = obj as MyClass
+    items = data as Models.User
+end sub
+
+' Source literals
+sub testSourceLiterals()
+    path = SOURCE_FILE_PATH
+    name = SOURCE_FUNCTION_NAME
+    line = SOURCE_LINE_NUM
+    loc = SOURCE_LOCATION
+    pkg = PKG_PATH
+    root = PKG_ROOT_DIR
+    ln = LINE_NUM
+end sub
+
+' Regex literals
+sub testRegex()
+    pattern = /hello world/gi
+    simple = /test/
+    email = /[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+/i
+end sub
+
+' Tagged template strings
+sub testTaggedTemplate()
+    result = tag`hello ${name}`
+    plain = myTag`plain text`
+end sub
+
+' Multi-index arrays
+sub testMultiIndex()
+    value = arr[1, 2, 3]
+    cell = matrix[row, col]
+end sub
+
+' Alias statement
+alias MyString = string
+alias UserModel = Models.User
+
+' Type statement
+type MyUnion = string or integer
+type Mixed = string or integer or boolean
+type Result = MyClass or OtherClass

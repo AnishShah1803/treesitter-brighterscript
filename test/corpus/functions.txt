@@ -1,0 +1,24 @@
+==================
+Basic function test
+==================
+
+function main()
+    print "Hello World"
+end function
+
+---
+
+(source_file
+  (function_statement
+    (function_start)
+    (identifier
+      (regular_identifier))
+    (parameter_list)
+    (block
+      (print_statement
+        (print)
+        (literal
+          (string
+            (string_contents)))))
+    (end_statement
+      (end_function))))

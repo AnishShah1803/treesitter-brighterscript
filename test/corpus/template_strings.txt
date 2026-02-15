@@ -1,0 +1,236 @@
+==================
+Simple template string
+==================
+
+message = `hello world`
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (literal
+      (template_string
+        (template_literal)))))
+
+==================
+Template string with variable interpolation
+==================
+
+message = `hello ${name}`
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (literal
+      (template_string
+        (template_literal)
+        (template_interpolation
+          (prefix_exp
+            (identifier
+              (regular_identifier))))))))
+
+==================
+Template string with multiple interpolations
+==================
+
+message = `hello ${name}, you are ${age} years old`
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (literal
+      (template_string
+        (template_literal)
+        (template_interpolation
+          (prefix_exp
+            (identifier
+              (regular_identifier))))
+        (template_literal)
+        (template_interpolation
+          (prefix_exp
+            (identifier
+              (regular_identifier))))
+        (template_literal)))))
+
+==================
+Template string with expression interpolation
+==================
+
+message = `total is ${a + b}`
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (literal
+      (template_string
+        (template_literal)
+        (template_interpolation
+          (binary_expression
+            (arithmetic_expression
+              (additive_expression
+                left: (prefix_exp
+                  (identifier
+                    (regular_identifier)))
+                right: (prefix_exp
+                  (identifier
+                    (regular_identifier)))))))))))
+
+==================
+Template string in print statement
+==================
+
+print `hello ${name}`
+
+---
+
+(source_file
+  (print_statement
+    (print)
+    arguments: (literal
+      (template_string
+        (template_literal)
+        (template_interpolation
+          (prefix_exp
+            (identifier
+              (regular_identifier))))))))
+
+==================
+Template string with function call in interpolation
+==================
+
+message = `result is ${getValue()}`
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (literal
+      (template_string
+        (template_literal)
+        (template_interpolation
+          (prefix_exp
+            (function_call
+              function: (prefix_exp
+                (identifier
+                  (regular_identifier)))
+              arguments: (parenthesized_expression))))))))
+
+==================
+Template string with property access in interpolation
+==================
+
+message = `welcome ${user.name}`
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (literal
+      (template_string
+        (template_literal)
+        (template_interpolation
+          (prefix_exp
+            (prefix_exp
+              (identifier
+                (regular_identifier)))
+            (identifier
+              (regular_identifier))))))))
+
+==================
+Template string multiline
+==================
+
+message = `line1
+line2`
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (literal
+      (template_string
+        (template_literal)))))
+
+==================
+Template string in function call argument
+==================
+
+printMessage(`hello ${name}`)
+
+---
+
+(source_file
+  (function_call
+    function: (prefix_exp
+      (identifier
+        (regular_identifier)))
+    arguments: (parenthesized_expression
+      (literal
+        (template_string
+          (template_literal)
+          (template_interpolation
+            (prefix_exp
+              (identifier
+                (regular_identifier)))))))))
+
+==================
+Template string with escaped backtick
+==================
+
+message = `hello \` world`
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (literal
+      (template_string
+        (template_literal)
+        (escaped_backtick)
+        (template_literal)))))
+
+==================
+Template string with escaped dollar sign
+==================
+
+message = `hello \$ world`
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (literal
+      (template_string
+        (template_literal)
+        (escaped_dollar)
+        (template_literal)))))

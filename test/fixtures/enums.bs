@@ -1,0 +1,27 @@
+' Enums fixture - validates enum parsing
+
+enum Direction
+    up
+    down
+    left
+    right
+end enum
+
+enum Color
+    red = "red"
+    green = "green"
+    blue = "blue"
+end enum
+
+enum HttpStatus
+    ok = 200
+    notFound = 404
+    serverError = 500
+end enum
+
+enum Priority
+    low
+    medium
+    high = 10
+    critical
+end enum

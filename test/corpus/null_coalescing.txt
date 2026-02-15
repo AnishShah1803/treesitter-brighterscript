@@ -1,0 +1,227 @@
+==================
+Simple null coalescing
+==================
+
+result = maybeNull ?? "default"
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (null_coalescing_expression
+      left: (prefix_exp
+        (identifier
+          (regular_identifier)))
+      right: (literal
+        (string
+          (string_contents))))))
+
+==================
+Null coalescing with number values
+==================
+
+value = count ?? 0
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (null_coalescing_expression
+      left: (prefix_exp
+        (identifier
+          (regular_identifier)))
+      right: (literal
+        (number)))))
+
+==================
+Null coalescing with identifier on right
+==================
+
+result = a ?? b
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (null_coalescing_expression
+      left: (prefix_exp
+        (identifier
+          (regular_identifier)))
+      right: (prefix_exp
+        (identifier
+          (regular_identifier))))))
+
+==================
+Null coalescing with function call
+==================
+
+result = getValue() ?? "fallback"
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (null_coalescing_expression
+      left: (prefix_exp
+        (function_call
+          function: (prefix_exp
+            (identifier
+              (regular_identifier)))
+          arguments: (parenthesized_expression)))
+      right: (literal
+        (string
+          (string_contents))))))
+
+==================
+Null coalescing with property access
+==================
+
+result = obj.property ?? "default"
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (null_coalescing_expression
+      left: (prefix_exp
+        (prefix_exp
+          (identifier
+            (regular_identifier)))
+        (identifier
+          (regular_identifier)))
+      right: (literal
+        (string
+          (string_contents))))))
+
+==================
+Chained null coalescing
+==================
+
+result = a ?? b ?? c
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (null_coalescing_expression
+      left: (null_coalescing_expression
+        left: (prefix_exp
+          (identifier
+            (regular_identifier)))
+        right: (prefix_exp
+          (identifier
+            (regular_identifier))))
+      right: (prefix_exp
+        (identifier
+          (regular_identifier))))))
+
+==================
+Null coalescing with array literal
+==================
+
+result = arr ?? []
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (null_coalescing_expression
+      left: (prefix_exp
+        (identifier
+          (regular_identifier)))
+      right: (literal
+        (array)))))
+
+==================
+Null coalescing with assoc array
+==================
+
+result = data ?? {}
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (null_coalescing_expression
+      left: (prefix_exp
+        (identifier
+          (regular_identifier)))
+      right: (literal
+        (assoc_array)))))
+
+==================
+Null coalescing in function call argument
+==================
+
+printValue(value ?? "default")
+
+---
+
+(source_file
+  (function_call
+    function: (prefix_exp
+      (identifier
+        (regular_identifier)))
+    arguments: (parenthesized_expression
+      (null_coalescing_expression
+        left: (prefix_exp
+          (identifier
+            (regular_identifier)))
+        right: (literal
+          (string
+            (string_contents)))))))
+
+==================
+Multiple assignments with null coalescing
+==================
+
+a = x ?? 1
+b = y ?? 2
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (null_coalescing_expression
+      left: (prefix_exp
+        (identifier
+          (regular_identifier)))
+      right: (literal
+        (number))))
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (null_coalescing_expression
+      left: (prefix_exp
+        (identifier
+          (regular_identifier)))
+      right: (literal
+        (number)))))

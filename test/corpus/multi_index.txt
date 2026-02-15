@@ -1,0 +1,67 @@
+==================
+Multi-index array access
+==================
+
+sub test()
+    value = arr[1, 2, 3]
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (prefix_exp
+          (prefix_exp
+            (identifier
+              (regular_identifier)))
+          (literal
+            (number))
+          (literal
+            (number))
+          (literal
+            (number)))))
+    (end_statement
+      (end_sub))))
+
+==================
+Multi-index with two indices
+==================
+
+sub test()
+    cell = matrix[row, col]
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (prefix_exp
+          (prefix_exp
+            (identifier
+              (regular_identifier)))
+          (prefix_exp
+            (identifier
+              (regular_identifier)))
+          (prefix_exp
+            (identifier
+              (regular_identifier))))))
+    (end_statement
+      (end_sub))))

@@ -1,0 +1,54 @@
+==================
+Simple type union statement
+==================
+
+type MyUnion = string or integer
+
+---
+
+(source_file
+  (type_statement
+    (type)
+    name: (identifier
+      (regular_identifier))
+    type: (type_union
+      (or))))
+
+==================
+Type union with three types
+==================
+
+type Mixed = string or integer or boolean
+
+---
+
+(source_file
+  (type_statement
+    (type)
+    name: (identifier
+      (regular_identifier))
+    type: (type_union
+      (or)
+      (or))))
+
+==================
+Type union with class types
+==================
+
+type Result = MyClass or OtherClass
+
+---
+
+(source_file
+  (type_statement
+    (type)
+    name: (identifier
+      (regular_identifier))
+    type: (type_union
+      (dotted_identifier
+        (identifier
+          (regular_identifier)))
+      (or)
+      (dotted_identifier
+        (identifier
+          (regular_identifier))))))

@@ -1,0 +1,110 @@
+==================
+Callfunc with no arguments
+==================
+
+sub test()
+    result = obj@.doSomething()
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (prefix_exp
+          (function_call
+            function: (prefix_exp
+              (prefix_exp
+                (identifier
+                  (regular_identifier)))
+              (identifier
+                (regular_identifier)))
+            arguments: (parenthesized_expression)))))
+    (end_statement
+      (end_sub))))
+
+==================
+Callfunc with arguments
+==================
+
+sub test()
+    result = obj@.doSomething(arg1, arg2)
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (prefix_exp
+          (function_call
+            function: (prefix_exp
+              (prefix_exp
+                (identifier
+                  (regular_identifier)))
+              (identifier
+                (regular_identifier)))
+            arguments: (parenthesized_expression
+              (prefix_exp
+                (identifier
+                  (regular_identifier)))
+              (prefix_exp
+                (identifier
+                  (regular_identifier))))))))
+    (end_statement
+      (end_sub))))
+
+==================
+Chained callfunc
+==================
+
+sub test()
+    result = m.node@.callFunc("getChildren")
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (prefix_exp
+          (function_call
+            function: (prefix_exp
+              (prefix_exp
+                (prefix_exp
+                  (identifier
+                    (m)))
+                (identifier
+                  (regular_identifier)))
+              (identifier
+                (regular_identifier)))
+            arguments: (parenthesized_expression
+              (literal
+                (string
+                  (string_contents))))))))
+    (end_statement
+      (end_sub))))

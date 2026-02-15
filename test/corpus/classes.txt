@@ -1,0 +1,243 @@
+==================
+Simple class test
+==================
+
+class Animal
+end class
+
+---
+
+(source_file
+  (class_statement
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    (end_class)))
+
+==================
+Class with extends
+==================
+
+class Dog extends Animal
+end class
+
+---
+
+(source_file
+  (class_statement
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    (class_heritage
+      (extends)
+      superclass: (identifier
+        (regular_identifier)))
+    (end_class)))
+
+==================
+Class with extends and implements
+==================
+
+class Dog extends Animal implements IAnimal, IPet
+end class
+
+---
+
+(source_file
+  (class_statement
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    (class_heritage
+      (extends)
+      superclass: (identifier
+        (regular_identifier))
+      (class_implements
+        (implements)
+        interface: (identifier
+          (regular_identifier))
+        interface: (identifier
+          (regular_identifier))))
+    (end_class)))
+
+==================
+Class with fields
+==================
+
+class Animal
+    public name as string
+    private age as integer
+    protected species
+end class
+
+---
+
+(source_file
+  (class_statement
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    body: (class_body
+      (class_member
+        (class_field
+          (access_modifier
+            (public))
+          name: (identifier
+            (regular_identifier))
+          (type_specifier
+            (as))))
+      (class_member
+        (class_field
+          (access_modifier
+            (private))
+          name: (identifier
+            (regular_identifier))
+          (type_specifier
+            (as))))
+      (class_member
+        (class_field
+          (access_modifier
+            (protected))
+          name: (identifier
+            (regular_identifier)))))
+    (end_class)))
+
+==================
+Class with methods
+==================
+
+class Animal
+    public function speak()
+        print "sound"
+    end function
+    
+    private sub move()
+    end sub
+end class
+
+---
+
+(source_file
+  (class_statement
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    body: (class_body
+      (class_member
+        (class_method
+          (access_modifier
+            (public))
+          (function_statement
+            (function_start)
+            name: (identifier
+              (regular_identifier))
+            parameters: (parameter_list)
+            body: (block
+              (print_statement
+                (print)
+                arguments: (literal
+                  (string
+                    (string_contents)))))
+            (end_statement
+              (end_function)))))
+      (class_member
+        (class_method
+          (access_modifier
+            (private))
+          (sub_statement
+            (sub_start)
+            name: (identifier
+              (regular_identifier))
+            parameters: (parameter_list)
+            (end_statement
+              (end_sub))))))
+    (end_class)))
+
+==================
+Class with constructor
+==================
+
+class Animal
+    public sub new(name as string)
+        m.name = name
+    end sub
+end class
+
+---
+
+(source_file
+  (class_statement
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    body: (class_body
+      (class_member
+        (class_method
+          (access_modifier
+            (public))
+          (sub_statement
+            (sub_start)
+            name: (identifier
+              (regular_identifier))
+            parameters: (parameter_list
+              (parameter
+                name: (identifier
+                  (regular_identifier))
+                (type_specifier
+                  (as))))
+            body: (block
+              (assignment_statement
+                left: (variable_declarator
+                  (prefix_exp
+                    (identifier
+                      (m)))
+                  (identifier
+                    (regular_identifier)))
+                right: (prefix_exp
+                  (identifier
+                    (regular_identifier)))))
+            (end_statement
+              (end_sub))))))
+    (end_class)))
+
+==================
+Class with override method
+==================
+
+class Dog extends Animal
+    public override function speak()
+        print "woof"
+    end function
+end class
+
+---
+
+(source_file
+  (class_statement
+    (class_start)
+    name: (identifier
+      (regular_identifier))
+    (class_heritage
+      (extends)
+      superclass: (identifier
+        (regular_identifier)))
+    body: (class_body
+      (class_member
+        (class_method
+          (access_modifier
+            (public))
+          (override)
+          (function_statement
+            (function_start)
+            name: (identifier
+              (regular_identifier))
+            parameters: (parameter_list)
+            body: (block
+              (print_statement
+                (print)
+                arguments: (literal
+                  (string
+                    (string_contents)))))
+            (end_statement
+              (end_function))))))
+    (end_class)))

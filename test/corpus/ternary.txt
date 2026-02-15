@@ -1,0 +1,370 @@
+==================
+Simple ternary
+==================
+
+result = isValid ? "yes" : "no"
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (ternary_expression
+      condition: (prefix_exp
+        (identifier
+          (regular_identifier)))
+      consequence: (literal
+        (string
+          (string_contents)))
+      alternative: (literal
+        (string
+          (string_contents))))))
+
+==================
+Ternary with number values
+==================
+
+value = count > 0 ? 1 : -1
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (binary_expression
+      (comparison_expression
+        left: (prefix_exp
+          (identifier
+            (regular_identifier)))
+        right: (ternary_expression
+          condition: (literal
+            (number))
+          consequence: (literal
+            (number))
+          alternative: (literal
+            (number)))))))
+
+==================
+Ternary with boolean values
+==================
+
+isReady = isComplete ? true : false
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (ternary_expression
+      condition: (prefix_exp
+        (identifier
+          (regular_identifier)))
+      consequence: (literal
+        (boolean))
+      alternative: (literal
+        (boolean)))))
+
+==================
+Ternary with invalid keyword
+==================
+
+result = user <> invalid ? "logged in" : "not logged in"
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (binary_expression
+      (comparison_expression
+        left: (prefix_exp
+          (identifier
+            (regular_identifier)))
+        right: (ternary_expression
+          condition: (literal
+            (invalid))
+          consequence: (literal
+            (string
+              (string_contents)))
+          alternative: (literal
+            (string
+              (string_contents))))))))
+
+==================
+Nested ternary
+==================
+
+result = true ? (true ? "one" : "two") : "three"
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (ternary_expression
+      condition: (literal
+        (boolean))
+      consequence: (parenthesized_expression
+        (ternary_expression
+          condition: (literal
+            (boolean))
+          consequence: (literal
+            (string
+              (string_contents)))
+          alternative: (literal
+            (string
+              (string_contents)))))
+      alternative: (literal
+        (string
+          (string_contents))))))
+
+==================
+Ternary with function call
+==================
+
+printAuthStatus(user <> invalid ? "logged in" : "not logged in")
+
+---
+
+(source_file
+  (function_call
+    function: (prefix_exp
+      (identifier
+        (regular_identifier)))
+    arguments: (parenthesized_expression
+      (binary_expression
+        (comparison_expression
+          left: (prefix_exp
+            (identifier
+              (regular_identifier)))
+          right: (ternary_expression
+            condition: (literal
+              (invalid))
+            consequence: (literal
+              (string
+                (string_contents)))
+            alternative: (literal
+              (string
+                (string_contents)))))))))
+
+==================
+Ternary with property access
+==================
+
+m.username = m.user <> invalid ? m.user.name : invalid
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (prefix_exp
+        (identifier
+          (m)))
+      (identifier
+        (regular_identifier)))
+    right: (binary_expression
+      (comparison_expression
+        left: (prefix_exp
+          (prefix_exp
+            (identifier
+              (m)))
+          (identifier
+            (regular_identifier)))
+        right: (ternary_expression
+          condition: (literal
+            (invalid))
+          consequence: (prefix_exp
+            (prefix_exp
+              (prefix_exp
+                (identifier
+                  (m)))
+              (identifier
+                (regular_identifier)))
+            (identifier
+              (regular_identifier)))
+          alternative: (literal
+            (invalid)))))))
+
+==================
+Ternary with array literal (requires space before [)
+==================
+
+data = isTrue ? ["key"] : getFalseData()
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (ternary_expression
+      condition: (prefix_exp
+        (identifier
+          (regular_identifier)))
+      consequence: (literal
+        (array
+          (literal
+            (string
+              (string_contents)))))
+      alternative: (prefix_exp
+        (function_call
+          function: (prefix_exp
+            (identifier
+              (regular_identifier)))
+          arguments: (parenthesized_expression))))))
+
+==================
+Ternary with parenthesized expression (requires space before ()
+==================
+
+data = isTrue ? (1 + 2) : getFalseData()
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (ternary_expression
+      condition: (prefix_exp
+        (identifier
+          (regular_identifier)))
+      consequence: (parenthesized_expression
+        (binary_expression
+          (arithmetic_expression
+            (additive_expression
+              left: (literal
+                (number))
+              right: (literal
+                (number))))))
+      alternative: (prefix_exp
+        (function_call
+          function: (prefix_exp
+            (identifier
+              (regular_identifier)))
+          arguments: (parenthesized_expression))))))
+
+==================
+Ternary with arithmetic expressions
+==================
+
+result = x > y ? x + 10 : y * 2
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (binary_expression
+      (comparison_expression
+        left: (prefix_exp
+          (identifier
+            (regular_identifier)))
+        right: (ternary_expression
+          condition: (prefix_exp
+            (identifier
+              (regular_identifier)))
+          consequence: (binary_expression
+            (arithmetic_expression
+              (additive_expression
+                left: (prefix_exp
+                  (identifier
+                    (regular_identifier)))
+                right: (literal
+                  (number)))))
+          alternative: (binary_expression
+            (arithmetic_expression
+              (multiplicative_expression
+                left: (prefix_exp
+                  (identifier
+                    (regular_identifier)))
+                right: (literal
+                  (number))))))))))
+
+==================
+Ternary with logical expressions
+==================
+
+result = a and b ? "both" : "neither"
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (binary_expression
+      (logical_expression
+        left: (prefix_exp
+          (identifier
+            (regular_identifier)))
+        operator: (and)
+        right: (ternary_expression
+          condition: (prefix_exp
+            (identifier
+              (regular_identifier)))
+          consequence: (literal
+            (string
+              (string_contents)))
+          alternative: (literal
+            (string
+              (string_contents))))))))
+
+==================
+Multiple ternary assignments
+==================
+
+a = x > 0 ? 1 : 0
+b = y < 0 ? -1 : 1
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (binary_expression
+      (comparison_expression
+        left: (prefix_exp
+          (identifier
+            (regular_identifier)))
+        right: (ternary_expression
+          condition: (literal
+            (number))
+          consequence: (literal
+            (number))
+          alternative: (literal
+            (number))))))
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (binary_expression
+      (comparison_expression
+        left: (prefix_exp
+          (identifier
+            (regular_identifier)))
+        right: (ternary_expression
+          condition: (literal
+            (number))
+          consequence: (literal
+            (number))
+          alternative: (literal
+            (number)))))))

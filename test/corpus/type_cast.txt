@@ -1,0 +1,94 @@
+==================
+Type cast with class type
+==================
+
+sub test()
+    value = something as MyClass
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (type_cast_expression
+          value: (prefix_exp
+            (identifier
+              (regular_identifier)))
+          (as)
+          type: (dotted_identifier
+            (identifier
+              (regular_identifier))))))
+    (end_statement
+      (end_sub))))
+
+==================
+Type cast with namespaced type
+==================
+
+sub test()
+    user = obj as Models.User
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (type_cast_expression
+          value: (prefix_exp
+            (identifier
+              (regular_identifier)))
+          (as)
+          type: (dotted_identifier
+            (identifier
+              (regular_identifier))
+            (identifier
+              (regular_identifier))))))
+    (end_statement
+      (end_sub))))
+
+==================
+Type cast with array type
+==================
+
+sub test()
+    items = data as string[]
+end sub
+
+---
+
+(source_file
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (assignment_statement
+        left: (variable_declarator
+          (identifier
+            (regular_identifier)))
+        right: (type_cast_expression
+          value: (prefix_exp
+            (identifier
+              (regular_identifier)))
+          (as))))
+    (end_statement
+      (end_sub))))

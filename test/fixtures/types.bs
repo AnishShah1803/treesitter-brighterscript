@@ -1,0 +1,32 @@
+' Extended type system fixture
+
+class MyClass
+    public name as string
+end class
+
+namespace Models
+    class User
+        public id as integer
+    end class
+end namespace
+
+function getUser() as Models.User
+    return new Models.User()
+end function
+
+function getNames() as string[]
+    return ["a", "b", "c"]
+end function
+
+function getUsers() as Models.User[]
+    return []
+end function
+
+function processItems(items as string[], count as integer) as boolean
+    return items.count() > count
+end function
+
+interface IRepository
+    function findById(id as integer) as MyClass
+    function findAll() as MyClass[]
+end interface

@@ -1,0 +1,32 @@
+' Expression extensions fixture - ternary, null-coalescing, template strings, new
+
+sub testTernary()
+    result = true ? "yes" : "no"
+end sub
+
+sub testTernaryComparison()
+    isGreater = 1 > 2
+    value = isGreater ? 10 : 20
+end sub
+
+sub testNestedTernary()
+    nested = a ? b ? c : d : e
+end sub
+
+sub testNullCoalescing()
+    name = m.name ?? "default"
+    config = getConfig() ?? { key: "fallback" }
+    chained = a ?? b ?? c
+end sub
+
+sub testTemplateStrings()
+    greeting = `hello world`
+    message = `Hello ${name}, you have ${count} items`
+    escaped = `backtick: \` and dollar: \$`
+    multiExpr = `${a} + ${b} = ${a + b}`
+end sub
+
+sub testNewExpression()
+    dog = new Dog("Rex", "Labrador")
+    logger = new MyApp.Utils.Logger()
+end sub

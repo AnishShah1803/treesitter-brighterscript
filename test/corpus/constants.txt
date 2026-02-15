@@ -1,0 +1,235 @@
+==================
+Simple const declaration with string value
+==================
+
+const GREETING_MESSAGE = "Hello world"
+
+---
+
+(source_file
+  (const_statement
+    (const)
+    name: (identifier
+      (regular_identifier))
+    value: (literal
+      (string
+        (string_contents)))))
+
+==================
+Const declaration with integer value
+==================
+
+const MAX_SIZE = 100
+
+---
+
+(source_file
+  (const_statement
+    (const)
+    name: (identifier
+      (regular_identifier))
+    value: (literal
+      (number))))
+
+==================
+Const declaration with float value
+==================
+
+const PI = 3.14159
+
+---
+
+(source_file
+  (const_statement
+    (const)
+    name: (identifier
+      (regular_identifier))
+    value: (literal
+      (number))))
+
+==================
+Const declaration with boolean value
+==================
+
+const DEBUG_MODE = true
+
+---
+
+(source_file
+  (const_statement
+    (const)
+    name: (identifier
+      (regular_identifier))
+    value: (literal
+      (boolean))))
+
+==================
+Const declaration with array value
+==================
+
+const METHODS = ["GET", "POST", "PUT", "DELETE"]
+
+---
+
+(source_file
+  (const_statement
+    (const)
+    name: (identifier
+      (regular_identifier))
+    value: (literal
+      (array
+        (literal
+          (string
+            (string_contents)))
+        (literal
+          (string
+            (string_contents)))
+        (literal
+          (string
+            (string_contents)))
+        (literal
+          (string
+            (string_contents)))))))
+
+==================
+Const declaration with associative array value
+==================
+
+const HEADERS = {"Authorization": "Basic", "Accept": "application/json"}
+
+---
+
+(source_file
+  (const_statement
+    (const)
+    name: (identifier
+      (regular_identifier))
+    value: (literal
+      (assoc_array
+        (assoc_array_element
+          key: (string
+            (string_contents))
+          value: (literal
+            (string
+              (string_contents))))
+        (assoc_array_element
+          key: (string
+            (string_contents))
+          value: (literal
+            (string
+              (string_contents))))))))
+
+==================
+Const declaration with expression value
+==================
+
+const LOGIN_URL = BASE_URL + LOGIN_PATH
+
+---
+
+(source_file
+  (const_statement
+    (const)
+    name: (identifier
+      (regular_identifier))
+    value: (binary_expression
+      (arithmetic_expression
+        (additive_expression
+          left: (prefix_exp
+            (identifier
+              (regular_identifier)))
+          right: (prefix_exp
+            (identifier
+              (regular_identifier))))))))
+
+==================
+Multiple const declarations
+==================
+
+const BASE_URL = "https://api.domain.com"
+const LOGIN_PATH = "/login"
+const MAX_RETRIES = 3
+
+---
+
+(source_file
+  (const_statement
+    (const)
+    name: (identifier
+      (regular_identifier))
+    value: (literal
+      (string
+        (string_contents))))
+  (const_statement
+    (const)
+    name: (identifier
+      (regular_identifier))
+    value: (literal
+      (string
+        (string_contents))))
+  (const_statement
+    (const)
+    name: (identifier
+      (regular_identifier))
+    value: (literal
+      (number))))
+
+==================
+Const with function
+==================
+
+const GREETING = "Hello"
+
+sub main()
+    print GREETING
+end sub
+
+---
+
+(source_file
+  (const_statement
+    (const)
+    name: (identifier
+      (regular_identifier))
+    value: (literal
+      (string
+        (string_contents))))
+  (sub_statement
+    (sub_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (print_statement
+        (print)
+        arguments: (prefix_exp
+          (identifier
+            (regular_identifier)))))
+    (end_statement
+      (end_sub))))
+
+==================
+Const in namespace
+==================
+
+namespace networking
+    const BASE_URL = "https://your-app.com/api/v1"
+end namespace
+
+---
+
+(source_file
+  (namespace_statement
+    (namespace_start)
+    name: (dotted_identifier
+      (identifier
+        (regular_identifier)))
+    body: (namespace_body
+      (const_statement
+        (const)
+        name: (identifier
+          (regular_identifier))
+        value: (literal
+          (string
+            (string_contents)))))
+    (end_namespace)))

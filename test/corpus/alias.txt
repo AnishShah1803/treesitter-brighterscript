@@ -1,0 +1,46 @@
+==================
+Simple alias statement
+==================
+
+alias MyString = string
+
+---
+
+(source_file
+  (alias_statement
+    (alias)
+    name: (identifier
+      (regular_identifier))))
+
+==================
+Alias with class type
+==================
+
+alias UserModel = Models.User
+
+---
+
+(source_file
+  (alias_statement
+    (alias)
+    name: (identifier
+      (regular_identifier))
+    type: (dotted_identifier
+      (identifier
+        (regular_identifier))
+      (identifier
+        (regular_identifier)))))
+
+==================
+Alias with array type
+==================
+
+alias StringList = string[]
+
+---
+
+(source_file
+  (alias_statement
+    (alias)
+    name: (identifier
+      (regular_identifier))))

@@ -1,0 +1,168 @@
+==================
+Simple namespace test
+==================
+
+namespace MyApp
+end namespace
+
+---
+
+(source_file
+  (namespace_statement
+    (namespace_start)
+    name: (dotted_identifier
+      (identifier
+        (regular_identifier)))
+    (end_namespace)))
+
+==================
+Namespace with dotted name
+==================
+
+namespace MyApp.Utils
+end namespace
+
+---
+
+(source_file
+  (namespace_statement
+    (namespace_start)
+    name: (dotted_identifier
+      (identifier
+        (regular_identifier))
+      (identifier
+        (regular_identifier)))
+    (end_namespace)))
+
+==================
+Namespace with deeply nested name
+==================
+
+namespace MyApp.Core.Utils.Helpers
+end namespace
+
+---
+
+(source_file
+  (namespace_statement
+    (namespace_start)
+    name: (dotted_identifier
+      (identifier
+        (regular_identifier))
+      (identifier
+        (regular_identifier))
+      (identifier
+        (regular_identifier))
+      (identifier
+        (regular_identifier)))
+    (end_namespace)))
+
+==================
+Namespace with function
+==================
+
+namespace MyApp
+    function greet() as string
+        return "Hello"
+    end function
+end namespace
+
+---
+
+(source_file
+  (namespace_statement
+    (namespace_start)
+    name: (dotted_identifier
+      (identifier
+        (regular_identifier)))
+    body: (namespace_body
+      (function_statement
+        (function_start)
+        name: (identifier
+          (regular_identifier))
+        parameters: (parameter_list)
+        return_type: (return_type
+          (type_specifier
+            (as)))
+        body: (block
+          (return_statement
+            (return)
+            value: (literal
+              (string
+                (string_contents)))))
+        (end_statement
+          (end_function))))
+    (end_namespace)))
+
+==================
+Namespace with class
+==================
+
+namespace MyApp.Models
+    class User
+        public name as string
+    end class
+end namespace
+
+---
+
+(source_file
+  (namespace_statement
+    (namespace_start)
+    name: (dotted_identifier
+      (identifier
+        (regular_identifier))
+      (identifier
+        (regular_identifier)))
+    body: (namespace_body
+      (class_statement
+        (class_start)
+        name: (identifier
+          (regular_identifier))
+        body: (class_body
+          (class_member
+            (class_field
+              (access_modifier
+                (public))
+              name: (identifier
+                (regular_identifier))
+              (type_specifier
+                (as)))))
+        (end_class)))
+    (end_namespace)))
+
+==================
+Nested namespaces
+==================
+
+namespace Outer
+    namespace Inner
+        function helper()
+        end function
+    end namespace
+end namespace
+
+---
+
+(source_file
+  (namespace_statement
+    (namespace_start)
+    name: (dotted_identifier
+      (identifier
+        (regular_identifier)))
+    body: (namespace_body
+      (namespace_statement
+        (namespace_start)
+        name: (dotted_identifier
+          (identifier
+            (regular_identifier)))
+        body: (namespace_body
+          (function_statement
+            (function_start)
+            name: (identifier
+              (regular_identifier))
+            parameters: (parameter_list)
+            (end_statement
+              (end_function))))
+        (end_namespace)))
+    (end_namespace)))

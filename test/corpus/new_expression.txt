@@ -1,0 +1,216 @@
+==================
+Simple new expression with no arguments
+==================
+
+instance = new MyClass()
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (new_expression
+      (new)
+      class: (dotted_identifier
+        (identifier
+          (regular_identifier)))
+      arguments: (parenthesized_expression))))
+
+==================
+New expression with arguments
+==================
+
+instance = new MyClass(arg1, arg2)
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (new_expression
+      (new)
+      class: (dotted_identifier
+        (identifier
+          (regular_identifier)))
+      arguments: (parenthesized_expression
+        (prefix_exp
+          (identifier
+            (regular_identifier)))
+        (prefix_exp
+          (identifier
+            (regular_identifier)))))))
+
+==================
+New expression with string argument
+==================
+
+instance = new MyClass("hello")
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (new_expression
+      (new)
+      class: (dotted_identifier
+        (identifier
+          (regular_identifier)))
+      arguments: (parenthesized_expression
+        (literal
+          (string
+            (string_contents)))))))
+
+==================
+New expression with number argument
+==================
+
+instance = new MyClass(123)
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (new_expression
+      (new)
+      class: (dotted_identifier
+        (identifier
+          (regular_identifier)))
+      arguments: (parenthesized_expression
+        (literal
+          (number))))))
+
+==================
+New expression with mixed arguments
+==================
+
+instance = new MyClass("hello", 123, value)
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (new_expression
+      (new)
+      class: (dotted_identifier
+        (identifier
+          (regular_identifier)))
+      arguments: (parenthesized_expression
+        (literal
+          (string
+            (string_contents)))
+        (literal
+          (number))
+        (prefix_exp
+          (identifier
+            (regular_identifier)))))))
+
+==================
+New expression as function argument
+==================
+
+doSomething(new MyClass())
+
+---
+
+(source_file
+  (function_call
+    function: (prefix_exp
+      (identifier
+        (regular_identifier)))
+    arguments: (parenthesized_expression
+      (new_expression
+        (new)
+        class: (dotted_identifier
+          (identifier
+            (regular_identifier)))
+        arguments: (parenthesized_expression)))))
+
+==================
+Chained new expression
+==================
+
+result = new A() ?? new B()
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (null_coalescing_expression
+      left: (new_expression
+        (new)
+        class: (dotted_identifier
+          (identifier
+            (regular_identifier)))
+        arguments: (parenthesized_expression))
+      right: (new_expression
+        (new)
+        class: (dotted_identifier
+          (identifier
+            (regular_identifier)))
+        arguments: (parenthesized_expression)))))
+
+==================
+New expression in ternary
+==================
+
+result = condition ? new MyClass() : invalid
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (ternary_expression
+      condition: (prefix_exp
+        (identifier
+          (regular_identifier)))
+      consequence: (new_expression
+        (new)
+        class: (dotted_identifier
+          (identifier
+            (regular_identifier)))
+        arguments: (parenthesized_expression))
+      alternative: (literal
+        (invalid)))))
+
+==================
+New expression with dotted (namespaced) class
+==================
+
+instance = new MyApp.Utils.Logger()
+
+---
+
+(source_file
+  (assignment_statement
+    left: (variable_declarator
+      (identifier
+        (regular_identifier)))
+    right: (new_expression
+      (new)
+      class: (dotted_identifier
+        (identifier
+          (regular_identifier))
+        (identifier
+          (regular_identifier))
+        (identifier
+          (regular_identifier)))
+      arguments: (parenthesized_expression))))

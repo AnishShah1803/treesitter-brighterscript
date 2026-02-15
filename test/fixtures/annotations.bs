@@ -1,0 +1,20 @@
+' Annotations fixture
+
+@annotation
+class AnnotatedClass
+    @field
+    public name as string
+
+    @method
+    public function process() as void
+        print "processing"
+    end function
+end class
+
+@annotation("value")
+class ConfiguredClass
+end class
+
+@annotation(key="value", count=42)
+class DetailedClass
+end class

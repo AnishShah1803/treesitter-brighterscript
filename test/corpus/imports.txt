@@ -1,0 +1,91 @@
+==================
+Simple import statement
+==================
+
+import "pkg:/source/utils.bs"
+
+---
+
+(source_file
+  (import_statement
+    (import)
+    path: (string
+      (string_contents))))
+
+==================
+Import with pkg path
+==================
+
+import "pkg:/components/Button.bs"
+
+---
+
+(source_file
+  (import_statement
+    (import)
+    path: (string
+      (string_contents))))
+
+==================
+Import with lib path
+==================
+
+import "lib:/testFramework.brs"
+
+---
+
+(source_file
+  (import_statement
+    (import)
+    path: (string
+      (string_contents))))
+
+==================
+Multiple imports
+==================
+
+import "pkg:/source/utils.bs"
+import "pkg:/source/helpers.bs"
+
+---
+
+(source_file
+  (import_statement
+    (import)
+    path: (string
+      (string_contents)))
+  (import_statement
+    (import)
+    path: (string
+      (string_contents))))
+
+==================
+Import with other statements
+==================
+
+import "pkg:/source/utils.bs"
+
+function main()
+    print "Hello"
+end function
+
+---
+
+(source_file
+  (import_statement
+    (import)
+    path: (string
+      (string_contents)))
+  (function_statement
+    (function_start)
+    name: (identifier
+      (regular_identifier))
+    parameters: (parameter_list)
+    body: (block
+      (print_statement
+        (print)
+        arguments: (literal
+          (string
+            (string_contents)))))
+    (end_statement
+      (end_function))))

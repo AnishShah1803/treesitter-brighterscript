@@ -1,0 +1,103 @@
+==================
+Simple interface test
+==================
+
+interface IAnimal
+end interface
+
+---
+
+(source_file
+  (interface_statement
+    (interface_start)
+    name: (identifier
+      (regular_identifier))
+    (end_interface)))
+
+==================
+Interface with method signatures
+==================
+
+interface IAnimal
+    sub speak()
+    function getName() as string
+end interface
+
+---
+
+(source_file
+  (interface_statement
+    (interface_start)
+    name: (identifier
+      (regular_identifier))
+    body: (interface_body
+      (interface_member
+        (interface_method_signature
+          (sub_start)
+          name: (identifier
+            (regular_identifier))
+          (parameter_list)))
+      (interface_member
+        (interface_method_signature
+          (function_start)
+          name: (identifier
+            (regular_identifier))
+          (parameter_list)
+          (return_type
+            (type_specifier
+              (as))))))
+    (end_interface)))
+
+==================
+Interface with parameters
+==================
+
+interface ICalculator
+    sub add(a as integer, b as integer)
+    function multiply(x as float, y as float) as float
+end interface
+
+---
+
+(source_file
+  (interface_statement
+    (interface_start)
+    name: (identifier
+      (regular_identifier))
+    body: (interface_body
+      (interface_member
+        (interface_method_signature
+          (sub_start)
+          name: (identifier
+            (regular_identifier))
+          (parameter_list
+            (parameter
+              name: (identifier
+                (regular_identifier))
+              (type_specifier
+                (as)))
+            (parameter
+              name: (identifier
+                (regular_identifier))
+              (type_specifier
+                (as))))))
+      (interface_member
+        (interface_method_signature
+          (function_start)
+          name: (identifier
+            (regular_identifier))
+          (parameter_list
+            (parameter
+              name: (identifier
+                (regular_identifier))
+              (type_specifier
+                (as)))
+            (parameter
+              name: (identifier
+                (regular_identifier))
+              (type_specifier
+                (as))))
+          (return_type
+            (type_specifier
+              (as))))))
+    (end_interface)))
