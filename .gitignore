@@ -6,7 +6,6 @@ node_modules/
 *.wasm
 
 # Tree-sitter internal (parser.c needed for installation)
-/src/tree_sitter/
 
 # Logs
 *.log
