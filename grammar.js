@@ -89,10 +89,14 @@ module.exports = grammar({
       $.end_statement
     ),
 
-    inline_body: $ => prec(2, seq(
+    inline_body: $ => prec(2, choice(
       ':',
-      $._single_line_statement,
-      repeat(seq(':', $._single_line_statement))
+      seq(
+        ':',
+        $._single_line_statement,
+        repeat(seq(':', $._single_line_statement)),
+        optional(':')
+      )
     )),
 
     sub_start: () => /sub/i,

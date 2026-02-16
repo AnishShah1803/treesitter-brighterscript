@@ -153,16 +153,18 @@
 (assoc_array_element
   key: (identifier) @property)
 
-; Property access via prefix_exp chain
-(prefix_exp
-  (prefix_exp)
-  "." @punctuation.delimiter
-  (identifier) @property)
+; Method calls on objects (e.g., target.hasFocus())
+(function_call
+  function: (prefix_exp
+    (prefix_exp)
+    "." @punctuation.delimiter
+    (identifier) @function.method.call))
 
-(prefix_exp
-  (prefix_exp)
-  "?." @punctuation.delimiter
-  (identifier) @property)
+(function_call
+  function: (prefix_exp
+    (prefix_exp)
+    "?." @punctuation.delimiter
+    (identifier) @function.method.call))
 
 ; Operators
 [
